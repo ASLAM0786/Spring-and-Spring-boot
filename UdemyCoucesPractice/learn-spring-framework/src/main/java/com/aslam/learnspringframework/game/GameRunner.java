@@ -2,15 +2,18 @@ package com.aslam.learnspringframework.game;
 
 public class GameRunner {
 
-  MarioGame game;
-  public GameRunner(MarioGame marioGame) {
-    //TODO Auto-generated constructor stub
+  GamingConsole game;
+  public GameRunner(GamingConsole game) {
     this.game = game;
   }
 
   public void run() {
-    // TODO Auto-generated method stub
-    System.out.println("Testing GameRunner class");
+    
+    System.out.println("Running Game:");
+    game.up();
+    game.down();
+    game.left();
+    game.right();
   }
   
 }

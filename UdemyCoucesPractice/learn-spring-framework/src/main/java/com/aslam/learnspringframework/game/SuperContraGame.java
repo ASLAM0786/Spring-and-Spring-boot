@@ -1,6 +1,6 @@
 package com.aslam.learnspringframework.game;
 
-public class SuperContraGame {
+public class SuperContraGame implements GamingConsole  {
   public void up(){
     System.err.println("Super Jump");
   }
