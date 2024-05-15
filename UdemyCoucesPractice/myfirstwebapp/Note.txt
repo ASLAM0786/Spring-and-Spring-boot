@@ -1,0 +1,2 @@
+### Run this app using mvn clean spring-boot:run if you are using intellij or
+### add scope to compile not provided of tomcat-embed-jasper

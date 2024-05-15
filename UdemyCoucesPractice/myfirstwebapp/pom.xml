@@ -21,7 +21,22 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-jasper</artifactId>
+			<scope>compile</scope> <!--default for IntelliJ -->
+		</dependency>
 
+<!--		<dependency>-->
+<!--			<groupId>jakarta.servlet.jsp.jstl</groupId>-->
+<!--			<artifactId>jakarta.servlet.jsp.jstl-api</artifactId>-->
+<!--		</dependency>-->
+
+		<!-- Use below dependency for Spring Boot >= 3.2.x -->
+<!--		<dependency>-->
+<!--			<groupId>org.glassfish.web</groupId>-->
+<!--			<artifactId>jakarta.servlet.jsp.jstl</artifactId>-->
+<!--		</dependency>-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
