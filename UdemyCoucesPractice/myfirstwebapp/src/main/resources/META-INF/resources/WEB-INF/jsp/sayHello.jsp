@@ -3,9 +3,7 @@
 		<title> My first HTML Page - JSP</title>
 	</head>
 	<body>
-		<h1>Heading 1</h1>
-		<h2>Heading 2</h2>
-		
-		My first html page with body - JSP
+		<h1>Learn From Scratch</h1>
+		<h2>This Website is developed by Aslam Ansari who is a senior software Engineer at Quark</h2>
 	</body>
 </html>
