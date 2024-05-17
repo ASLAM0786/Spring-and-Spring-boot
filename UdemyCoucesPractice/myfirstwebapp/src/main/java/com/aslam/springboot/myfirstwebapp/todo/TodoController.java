@@ -1,18 +1,21 @@
 package com.aslam.springboot.myfirstwebapp.todo;
 
 import jakarta.validation.Valid;
-import org.springframework.stereotype.Controller;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import java.time.LocalDate;
 import java.util.List;
 
 
-@Controller
+//@Controller
+@SessionAttributes("name")
 public class TodoController {
 
     private final TodoService todoService;
@@ -24,7 +27,8 @@ public class TodoController {
 
     @RequestMapping("list-todos")
     public String getTodoList(ModelMap model) {
-        List<Todo> todos = todoService.findByUsername("aslam");
+        String username = getLoggedInUsername(model);
+        List<Todo> todos = todoService.findByUsername(username);
         model.addAttribute("todos", todos);
         return "listTodos";
     }
@@ -73,5 +77,10 @@ public class TodoController {
         }
         todoService.updateTodo(todo);
         return "redirect:list-todos";
+    }
+
+    private String getLoggedInUsername(ModelMap modelMap) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getName();
     }
 }
