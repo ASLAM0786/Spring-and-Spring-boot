@@ -1,5 +1,6 @@
 package com.aslam.rest.webservices.restfulwebservices.user;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 
@@ -8,7 +9,12 @@ import java.time.LocalDate;
 public class User {
     private int id;
 
+    /**
+     * Customize property name in response
+     */
     @Size(min = 4, message = "name should be atleast 4 character")
+    @JsonProperty("USER_NAME")
+
     private String name;
 
     @Past(message = "BirthDate Should be in the past")
