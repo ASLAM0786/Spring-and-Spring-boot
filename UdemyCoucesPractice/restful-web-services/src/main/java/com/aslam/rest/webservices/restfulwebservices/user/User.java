@@ -1,12 +1,22 @@
 package com.aslam.rest.webservices.restfulwebservices.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
+import java.util.List;
 
+@Entity(name = "user_details")
 public class User {
+
+    @Id
+    @GeneratedValue
     private int id;
 
     /**
@@ -18,15 +28,19 @@ public class User {
     private String name;
 
     @Past(message = "BirthDate Should be in the past")
-    private LocalDate birthdate;
+    private LocalDate birthDate;
 
-    public User() {
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private List<Post> posts;
+
+    protected User() {
     }
 
-    public User(int id, String name, LocalDate birthdate) {
+    public User(int id, String name, LocalDate birthDate) {
         this.id = id;
         this.name = name;
-        this.birthdate = birthdate;
+        this.birthDate = birthDate;
     }
 
     public int getId() {
@@ -45,11 +59,19 @@ public class User {
         this.name = name;
     }
 
-    public LocalDate getBirthdate() {
-        return birthdate;
+    public LocalDate getBirthDate() {
+        return birthDate;
     }
 
-    public void setBirthdate(LocalDate birthdate) {
-        this.birthdate = birthdate;
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
     }
 }
