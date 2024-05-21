@@ -11,6 +11,11 @@
 }
 
 .count {
-  font-size: 150px;
+  font-size: 70px;
   padding: 20px;
+}
+
+.gcount {
+  color: cadetblue;
+  font-size: 150px;
 }

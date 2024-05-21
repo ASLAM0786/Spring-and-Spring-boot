@@ -1,18 +1,40 @@
 import { useState } from "react";
-import "./counter.css";
+import "./Counter.css";
 
 import propTypes from "prop-types";
 
 export default function Counter() {
+  const [count, setCount] = useState(0);
+  function incrementCounterParentCounter(by) {
+    setCount(count + by);
+  }
+
+  function decrementCounterParentFunction(by) {
+    setCount(count - by);
+  }
+
   return (
     <div>
-      <CounterButton by={1} />
-      <CounterButton by={2} />
-      <CounterButton by={3} />
+      <span className="gcount">{count}</span>
+      <CounterButton
+        by={1}
+        incrementMethod={incrementCounterParentCounter}
+        decrementMethod={decrementCounterParentFunction}
+      />
+      <CounterButton
+        by={2}
+        incrementMethod={incrementCounterParentCounter}
+        decrementMethod={decrementCounterParentFunction}
+      />
+      <CounterButton
+        by={3}
+        incrementMethod={incrementCounterParentCounter}
+        decrementMethod={decrementCounterParentFunction}
+      />
     </div>
   );
 }
-function CounterButton({ by }) {
+function CounterButton({ by, incrementMethod, decrementMethod }) {
   // const buttonStyle = {
   //   fontSize: "30px",
   //   backgroundcolor: "#00a5ab",
@@ -27,17 +49,14 @@ function CounterButton({ by }) {
   //INFO: useState return two first is value and second is function to update state
 
   //console.log(by);
-
   function incrementCounterFunction() {
     setCount(count + by);
-    console.log(count);
-    //console.log("Increment clicked");
+    incrementMethod(by);
   }
 
   function decrementCounterFunction() {
     setCount(count - by);
-    console.log(count);
-    //console.log("Increment clicked");
+    decrementMethod(by);
   }
   return (
     <div className="Counter">
