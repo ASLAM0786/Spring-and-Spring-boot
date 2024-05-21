@@ -1,11 +1,10 @@
 import "./App.css";
-import Counter from "./components/counter/Counter";
+import TodoApp from "./components/Todo/TodoApp";
 
 function App() {
   return (
     <div className="App">
-      <PlayingWithPops property1="value1" property2="value2" />
-      <Counter />
+      <TodoApp />
     </div>
   );
 }
@@ -18,10 +17,10 @@ function App() {
 //   return <div>Props</div>;
 // }
 
-function PlayingWithPops(property1, property2) {
-  console.log(property1);
-  console.log(property2);
+// function PlayingWithPops(property1, property2) {
+//   console.log(property1);
+//   console.log(property2);
 
-  return <div>Props</div>;
-}
+//   return <div>Props</div>;
+// }
 export default App;
