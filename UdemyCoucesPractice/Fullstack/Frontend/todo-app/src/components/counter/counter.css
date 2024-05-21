@@ -1,6 +1,5 @@
-.counterButton {
+button {
   font-size: 16px;
-  background-color: blueviolet;
   width: 100px;
   margin: 10px;
   color: aliceblue;
@@ -8,6 +7,9 @@
   border-radius: 30px;
   border-color: black;
   border-width: 5px;
+}
+.counterButton {
+  background-color: blueviolet;
 }
 
 .count {
@@ -18,4 +20,8 @@
 .gcount {
   color: cadetblue;
   font-size: 150px;
+}
+
+.resetBtn {
+  background-color: #0ab5ab;
 }

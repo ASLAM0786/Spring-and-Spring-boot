@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./Counter.css";
 
-import propTypes from "prop-types";
+import CounterButton from "./CounterButton";
 
 export default function Counter() {
   const [count, setCount] = useState(0);
@@ -13,6 +13,9 @@ export default function Counter() {
     setCount(count - by);
   }
 
+  function resetCounter() {
+    setCount(0);
+  }
   return (
     <div>
       <span className="gcount">{count}</span>
@@ -31,57 +34,9 @@ export default function Counter() {
         incrementMethod={incrementCounterParentCounter}
         decrementMethod={decrementCounterParentFunction}
       />
+      <button className="resetBtn" onClick={resetCounter}>
+        Reset
+      </button>
     </div>
   );
 }
-function CounterButton({ by, incrementMethod, decrementMethod }) {
-  // const buttonStyle = {
-  //   fontSize: "30px",
-  //   backgroundcolor: "#00a5ab",
-  //   width: "100px",
-  //   margin: "10px",
-  //   color: "White",
-  //   padding: "15px",
-  //   borderRadius: "20px",
-  // };
-
-  const [count, setCount] = useState(0);
-  //INFO: useState return two first is value and second is function to update state
-
-  //console.log(by);
-  function incrementCounterFunction() {
-    setCount(count + by);
-    incrementMethod(by);
-  }
-
-  function decrementCounterFunction() {
-    setCount(count - by);
-    decrementMethod(by);
-  }
-  return (
-    <div className="Counter">
-      <span className="count">{count}</span>
-      <div>
-        <button
-          className="counterButton"
-          onClick={incrementCounterFunction}
-          // style={{ fontSize: "30px" }}
-          // style={buttonStyle}
-        >
-          +{by}
-        </button>
-        <button className="counterButton" onClick={decrementCounterFunction}>
-          -{by}
-        </button>
-      </div>
-    </div>
-  );
-}
-
-CounterButton.propTypes = {
-  by: propTypes.number,
-};
-
-// CounterButton.defaultProps = {
-//   by: 1,
-// };
