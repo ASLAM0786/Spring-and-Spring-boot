@@ -1,13 +1,12 @@
 import { createContext, useState, useContext } from "react";
 //TODO
-//1-craete conext
+//1-create context
 export const AuthContext = createContext();
 export const useAuth = () => useContext(AuthContext);
 // share the created context with other component
 
 export default function AuthProvider({ children }) {
   // Put some state in that context
-  const [number, setNumber] = useState(10);
 
   const [isAuthenticated, setAuthenticated] = useState(false);
 
@@ -22,11 +21,12 @@ export default function AuthProvider({ children }) {
     return false;
   }
 
-  //const valuedToBeShared = { number, isAuthenticated, setAuthenticated };
+  function logout() {
+    setAuthenticated(false);
+  }
+
   return (
-    <AuthContext.Provider
-      value={{ number, isAuthenticated, setAuthenticated, login }}
-    >
+    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

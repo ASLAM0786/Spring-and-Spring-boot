@@ -35,7 +35,6 @@ function ListTodosComponent() {
           </tbody>
         </table>
       </div>
-      {/*<div>Todo Details</div>*/}
     </div>
   );
 }
