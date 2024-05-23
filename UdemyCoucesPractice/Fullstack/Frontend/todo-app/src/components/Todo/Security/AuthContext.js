@@ -1,32 +1,53 @@
 import { createContext, useState, useContext } from "react";
-//TODO
-//1-create context
+import { executeBasicAuthenticationService } from "../api/HelloWorldApiService";
+import apiClient from "../api/ApiClient";
+
 export const AuthContext = createContext();
 export const useAuth = () => useContext(AuthContext);
-// share the created context with other component
 
 export default function AuthProvider({ children }) {
-  // Put some state in that context
-
   const [isAuthenticated, setAuthenticated] = useState(false);
 
-  //setInterval(() => setNumber(number + 1), 10000);
+  const [username, setUsername] = useState(null);
 
-  function login(username, password) {
-    if ((username === "aslam") & (password === "dummy")) {
-      setAuthenticated(true);
-      return true;
+  const [token, setToken] = useState(null);
+  async function login(username, password) {
+    const bToken = "Basic " + window.btoa(username + ":" + password);
+
+    try {
+      const response = await executeBasicAuthenticationService(bToken);
+
+      if (response.status == 200) {
+        setAuthenticated(true);
+        setUsername(username);
+        setToken(bToken);
+
+        apiClient.interceptors.request.use((config) => {
+          console.log("interceptor and adding token");
+          config.headers.Authorization = bToken;
+          return config;
+        });
+        return true;
+      } else {
+        logout();
+        return false;
+      }
+    } catch (error) {
+      logout();
+      return false;
     }
-    setAuthenticated(false);
-    return false;
   }
 
   function logout() {
     setAuthenticated(false);
+    setUsername(null);
+    setToken(null);
   }
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated, login, logout, username, token }}
+    >
       {children}
     </AuthContext.Provider>
   );
