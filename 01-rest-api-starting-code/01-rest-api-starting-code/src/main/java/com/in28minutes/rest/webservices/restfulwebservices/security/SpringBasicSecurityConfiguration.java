@@ -10,7 +10,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import static org.springframework.security.config.Customizer.*;
 
-@Configuration
+//@Configuration
 public class SpringBasicSecurityConfiguration {
 
     @Bean

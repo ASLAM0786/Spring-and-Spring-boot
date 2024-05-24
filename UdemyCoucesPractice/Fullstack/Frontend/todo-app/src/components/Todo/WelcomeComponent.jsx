@@ -13,7 +13,7 @@ function WelcomeComponent() {
   const token = authContext.token;
 
   function callHelloWorldRestAPI() {
-    retrieveHelloWorldPathVariable("Aslam", token)
+    retrieveHelloWorldPathVariable("Aslam")
       .then((response) => successfulResponse(response))
       .catch((error) => errorResponse(error))
       .finally(() => console.log("do cleanup"));
