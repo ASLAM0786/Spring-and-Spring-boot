@@ -5,7 +5,6 @@ import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -16,6 +15,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,15 +26,17 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
-import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -43,13 +45,20 @@ public class JwtSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, HandlerMappingIntrospector introspector) throws Exception {
 
-        // h2-console is a servlet
-        // https://github.com/spring-projects/spring-security/issues/12310
+
         return httpSecurity
+                .cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.configurationSource(request -> {
+                    CorsConfiguration configuration = new CorsConfiguration();
+                    configuration.setAllowedOrigins(List.of("http://localhost:3000"));
+                    configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH"));
+                    configuration.setAllowedHeaders(List.of("*"));
+                    return configuration;
+                }))
+
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/authenticate").permitAll()
-                        .requestMatchers(PathRequest.toH2Console()).permitAll() // h2-console is a servlet and NOT recommended for a production
-                        .requestMatchers(HttpMethod.OPTIONS,"/**")
+                        .requestMatchers("/h2-console/**").permitAll() // h2-console is a servlet and NOT recommended for a production
+                        .requestMatchers(HttpMethod.OPTIONS, "/**")
                         .permitAll()
                         .anyRequest()
                         .authenticated())
@@ -57,13 +66,39 @@ public class JwtSecurityConfig {
                 .sessionManagement(session -> session.
                         sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2ResourceServer(
-                        OAuth2ResourceServerConfigurer::jwt)
+                        OAuth2ResourceServerConfigurer ->
+                                OAuth2ResourceServerConfigurer
+                                        .jwt(Customizer.withDefaults())
+                )
                 .httpBasic(
                         Customizer.withDefaults())
-                .headers(header -> {header.
-                        frameOptions().sameOrigin();})
+                .headers(header -> {
+                    header.
+                            frameOptions(frameOptionsConfig -> frameOptionsConfig.sameOrigin());
+                })
                 .build();
     }
+    // h2-console is a servlet
+    // https://github.com/spring-projects/spring-security/issues/12310
+//        return httpSecurity
+//                .authorizeHttpRequests(auth -> auth
+//                        .requestMatchers("/authenticate").permitAll()
+//                        //.requestMatchers(PathRequest.toH2Console()).permitAll() // h2-console is a servlet and NOT recommended for a production
+//                        .requestMatchers(HttpMethod.OPTIONS,"/**")
+//                        .permitAll()
+//                        .anyRequest()
+//                        .authenticated())
+//                .csrf(AbstractHttpConfigurer::disable)
+//                .sessionManagement(session -> session.
+//                        sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                .oauth2ResourceServer(
+//                        OAuth2ResourceServerConfigurer::jwt)
+//                .httpBasic(
+//                        Customizer.withDefaults())
+//                .headers(header -> {header.
+//                        frameOptions().sameOrigin();})
+//                .build();
+//    }
 
     @Bean
     public AuthenticationManager authenticationManager(
@@ -75,7 +110,7 @@ public class JwtSecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        UserDetails user = User.withUsername("in28minutes")
+        UserDetails user = User.withUsername("aslam")
                 .password("{noop}dummy")
                 .authorities("read")
                 .roles("USER")
