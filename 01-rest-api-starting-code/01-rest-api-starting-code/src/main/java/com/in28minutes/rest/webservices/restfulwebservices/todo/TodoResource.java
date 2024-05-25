@@ -5,9 +5,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+//@RestController
 public class TodoResource {
-private  TodoService todoService;
+    private final TodoService todoService;
 
     public TodoResource(TodoService todoService) {
         this.todoService = todoService;
@@ -15,11 +15,11 @@ private  TodoService todoService;
 
     @GetMapping("/user/{username}/todos")
     public List<Todo> retrieveTodos(@PathVariable String username) {
-    return todoService.findByUsername(username);
+        return todoService.findByUsername(username);
     }
 
     @GetMapping("/user/{username}/todos/{id}")
-    public Todo retrieveTodo(@PathVariable String username,@PathVariable int id) {
+    public Todo retrieveTodo(@PathVariable String username, @PathVariable int id) {
         return todoService.findById(id);
     }
 
@@ -30,14 +30,14 @@ private  TodoService todoService;
     }
 
     @PutMapping("/user/{username}/todos/{id}")
-    public Todo updateTodo(@PathVariable String username, @PathVariable int id,@RequestBody Todo todo) {
-       todoService.updateTodo(todo);
+    public Todo updateTodo(@PathVariable String username, @PathVariable int id, @RequestBody Todo todo) {
+        todoService.updateTodo(todo);
         return todo;
     }
 
     @PostMapping("/user/{username}/todos")
-    public Todo createTodo(@PathVariable String username,@RequestBody Todo todo) {
-        Todo newTodo= todoService.addTodo(username,todo.getDescription(),todo.getTargetDate(),todo.isDone());
+    public Todo createTodo(@PathVariable String username, @RequestBody Todo todo) {
+        Todo newTodo = todoService.addTodo(username, todo.getDescription(), todo.getTargetDate(), todo.isDone());
         return newTodo;
     }
 }

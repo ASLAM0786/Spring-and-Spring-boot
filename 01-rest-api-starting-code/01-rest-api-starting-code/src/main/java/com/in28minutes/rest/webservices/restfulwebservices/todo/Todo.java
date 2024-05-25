@@ -1,74 +1,79 @@
 package com.in28minutes.rest.webservices.restfulwebservices.todo;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+
 import java.time.LocalDate;
 
+@Entity
 public class Todo {
 
-	public Todo() {
-		
-	}
-	
-	public Todo(int id, String username, String description, LocalDate targetDate, boolean done) {
-		super();
-		this.id = id;
-		this.username = username;
-		this.description = description;
-		this.targetDate = targetDate;
-		this.done = done;
-	}
+    @Id
+    @GeneratedValue
+    private Integer id;
+    private String username;
+    private String description;
+    private LocalDate targetDate;
+    private boolean done;
 
-	private int id;
+    public Todo() {
 
-	private String username;
-	
-	private String description;
-	private LocalDate targetDate;
-	private boolean done;
+    }
 
-	public int getId() {
-		return id;
-	}
+    public Todo(Integer id, String username, String description, LocalDate targetDate, boolean done) {
+        super();
+        this.id = id;
+        this.username = username;
+        this.description = description;
+        this.targetDate = targetDate;
+        this.done = done;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public String getUsername() {
-		return username;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    public String getUsername() {
+        return username;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public LocalDate getTargetDate() {
-		return targetDate;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public void setTargetDate(LocalDate targetDate) {
-		this.targetDate = targetDate;
-	}
+    public LocalDate getTargetDate() {
+        return targetDate;
+    }
 
-	public boolean isDone() {
-		return done;
-	}
+    public void setTargetDate(LocalDate targetDate) {
+        this.targetDate = targetDate;
+    }
 
-	public void setDone(boolean done) {
-		this.done = done;
-	}
+    public boolean isDone() {
+        return done;
+    }
 
-	@Override
-	public String toString() {
-		return "Todo [id=" + id + ", username=" + username + ", description=" + description + ", targetDate="
-				+ targetDate + ", done=" + done + "]";
-	}
+    public void setDone(boolean done) {
+        this.done = done;
+    }
+
+    @Override
+    public String toString() {
+        return "Todo [id=" + id + ", username=" + username + ", description=" + description + ", targetDate="
+                + targetDate + ", done=" + done + "]";
+    }
 
 }
